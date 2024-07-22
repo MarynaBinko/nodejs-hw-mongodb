@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllContacts } from '../services/contacts.js';
+import { getAllContacts, getContactById } from '../services/contacts.js';
 
 const router = express.Router();
 
@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
       data: contacts,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       status: 'error',
       message: 'Server error',
@@ -20,26 +21,27 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:contactId', async (req, res) => {
-    try {
-      const contact = await getContactById(req.params.contactId);
-      if (!contact) {
-        return res.status(404).json({ message: 'Contact not found' });
-      }
-      res.json({
-        status: 200,
-        message: `Successfully found contact with id ${req.params.contactId}!`,
-        data: contact,
-      });
-    } catch (error) {
-      res.status(500).json({
-        status: 'error',
-        message: 'Server error',
-      });
+  try {
+    const contact = await getContactById(req.params.contactId);
+    if (!contact) {
+      return res.status(404).json({ status: 'error', message: 'Contact not found' });
     }
-  });
+    res.json({
+      status: 'success',
+      message: `Successfully found contact with id ${req.params.contactId}!`,
+      data: contact,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Server error',
+    });
+  }
+});
 
-  
 export default router;
+
 
 
 

@@ -3,8 +3,6 @@ import cors from 'cors';
 import pino from 'pino-http';
 import contactsRouter from './routes/contacts.js';
 
-
-
 export const setupServer = () => {
   const app = express();
   app.use(cors());

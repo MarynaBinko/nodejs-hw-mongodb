@@ -4,10 +4,7 @@ const initMongoConnection = async () => {
   const { MONGODB_CONNECTION_STRING } = process.env;
 
   try {
-    await mongoose.connect(MONGODB_CONNECTION_STRING, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(MONGODB_CONNECTION_STRING);
     console.log('Mongo connection successfully established!');
   } catch (error) {
     console.error('Mongo connection error:', error);

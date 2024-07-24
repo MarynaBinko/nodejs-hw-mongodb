@@ -8,11 +8,12 @@ const initMongoConnection = async () => {
     await mongoose.connect(connectionString);
     console.log('Mongo connection successfully established!');
   } catch (error) {
-    console.error('Mongo connection error:', error);
+    console.error('Mongo connection error:', error); 
   }
 };
 
 export default initMongoConnection;
+
 
 
 

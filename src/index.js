@@ -5,11 +5,27 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const startApp = async () => {
-  await initMongoConnection();
-  setupServer();
+  try {
+    // Initialize MongoDB connection
+    await initMongoConnection();
+
+    // Set up the server
+    const app = setupServer();
+
+    // Start the server
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start the application:', error);
+  }
 };
 
 startApp();
+
+
+
 
 
 

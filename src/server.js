@@ -1,24 +1,25 @@
 import express from 'express';
-import cors from 'cors';
-import pino from 'pino-http';
-import contactsRouter from './routes/contacts.js';
+import morgan from 'morgan';
+import contactsRouter from './routers/contacts.js';
+import errorHandler from './middlewares/errorHandler.js';
+import notFoundHandler from './middlewares/notFoundHandler.js';
 
-export const setupServer = () => {
+const setupServer = () => {
   const app = express();
-  app.use(cors());
-  app.use(pino());
+
+  app.use(morgan('dev'));
+  app.use(express.json());
 
   app.use('/contacts', contactsRouter);
 
-  app.use((req, res, next) => {
-    res.status(404).json({ message: 'Not found' });
-  });
+  // Handle 404 errors
+  app.use(notFoundHandler);
 
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  // Error handling middleware
+  app.use(errorHandler);
+
+  return app;
 };
 
-
+export { setupServer };
 

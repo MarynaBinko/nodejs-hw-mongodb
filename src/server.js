@@ -1,24 +1,25 @@
-import express from 'express';
-import cors from 'cors';
-import pino from 'pino-http';
-import contactsRouter from './routes/contacts.js';
 
-export const setupServer = () => {
-  const app = express();
-  app.use(cors());
-  app.use(pino());
+const express = require('express');
+const logger = require('morgan');
+const cors = require('cors');
+const contactsRouter = require('./routers/contacts');
+const errorHandler = require('./middlewares/errorHandler');
+const notFoundHandler = require('./middlewares/notFoundHandler');
 
-  app.use('/contacts', contactsRouter);
+const app = express();
 
-  app.use((req, res, next) => {
-    res.status(404).json({ message: 'Not found' });
-  });
+app.use(logger('dev'));
+app.use(cors());
+app.use(express.json());
 
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-};
+app.use('/api', contactsRouter);
 
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 

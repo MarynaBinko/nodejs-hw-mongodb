@@ -1,4 +1,4 @@
-import Contact from '../models/contact.js';
+import Contact from '../models/Contact.js';
 import httpErrors from 'http-errors';
 
 export const getAllContacts = async (req, res, next) => {

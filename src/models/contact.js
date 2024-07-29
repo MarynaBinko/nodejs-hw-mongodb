@@ -13,6 +13,13 @@ const contactSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+contactSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    delete ret.__v;
+    return ret;
+  }
+});
+
 const Contact = mongoose.model('Contact', contactSchema);
 
 export default Contact;

@@ -14,6 +14,7 @@ export const getAllContacts = async (req, res, next) => {
   }
 };
 
+
 export const getContactById = async (req, res, next) => {
   try {
     const contact = await Contact.findById(req.params.contactId);

@@ -6,6 +6,7 @@ import {
     deleteContact as deleteContactService
   } from '../services/contacts.js';
   import httpErrors from 'http-errors';
+  import Contact from '../models/contact.js';
 
   export const getAllContacts = async (req, res, next) => {
     try {

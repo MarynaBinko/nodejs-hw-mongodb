@@ -6,21 +6,41 @@ import {
     deleteContact as deleteContactService
   } from '../services/contacts.js';
   import httpErrors from 'http-errors';
+  import Contact from '../models/contact.js';
 
-  export const getAllContacts = async (req, res, next) => {
-    try {
-      const contacts = await getAllContactsService();
-      res.status(200).json({
-        status: 200,
-        message: 'Successfully found contacts!',
+export const getAllContacts = async (req, res, next) => {
+  try {
+    const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
+
+    const skip = (page - 1) * perPage;
+    const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
+
+    const filters = {};
+    if (type) filters.contactType = type;
+    if (isFavourite !== undefined) filters.isFavourite = isFavourite === 'true';
+
+    const [contacts, totalItems] = await Promise.all([
+      Contact.find(filters).sort(sort).skip(skip).limit(perPage),
+      Contact.countDocuments(filters),
+    ]);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
+      data: {
         data: contacts,
-      });
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
-  };
-
+        page: Number(page),
+        perPage: Number(perPage),
+        totalItems,
+        totalPages: Math.ceil(totalItems / perPage),
+        hasPreviousPage: page > 1,
+        hasNextPage: page * perPage < totalItems,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
   export const getContactById = async (req, res, next) => {
     try {
       const contact = await getContactByIdService(req.params.contactId);

@@ -9,14 +9,34 @@ import {
 
   export const getAllContacts = async (req, res, next) => {
     try {
-      const contacts = await getAllContactsService();
+      const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
+
+      const skip = (page - 1) * perPage;
+      const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
+
+      const filters = {};
+      if (type) filters.contactType = type;
+      if (isFavourite !== undefined) filters.isFavourite = isFavourite === 'true';
+
+      const [contacts, totalItems] = await Promise.all([
+        getAllContactsService(filters, sort, skip, perPage),
+        Contact.countDocuments(filters),
+      ]);
+
       res.status(200).json({
         status: 200,
         message: 'Successfully found contacts!',
-        data: contacts,
+        data: {
+          data: contacts,
+          page: Number(page),
+          perPage: Number(perPage),
+          totalItems,
+          totalPages: Math.ceil(totalItems / perPage),
+          hasPreviousPage: page > 1,
+          hasNextPage: page * perPage < totalItems,
+        },
       });
     } catch (error) {
-      console.error(error);
       next(error);
     }
   };
@@ -33,7 +53,6 @@ import {
         data: contact,
       });
     } catch (error) {
-      console.error(error);
       next(error);
     }
   };
@@ -47,7 +66,6 @@ import {
         data: newContact,
       });
     } catch (error) {
-      console.error(error);
       next(error);
     }
   };
@@ -64,7 +82,6 @@ import {
         data: updatedContact,
       });
     } catch (error) {
-      console.error(error);
       next(error);
     }
   };
@@ -77,7 +94,7 @@ import {
       }
       res.status(204).send();
     } catch (error) {
-      console.error(error);
       next(error);
     }
   };
+

@@ -6,6 +6,25 @@ import Session from '../models/session.js';
 
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
+
+export const registerUserService = async ({ name, email, password }) => {
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw createHttpError(409, 'Email in use');
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new User({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  await newUser.save();
+  return newUser;
+};
+
+
 export const loginUserService = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -36,5 +55,4 @@ export const loginUserService = async ({ email, password }) => {
   await session.save();
   return { accessToken, refreshToken };
 };
-
 

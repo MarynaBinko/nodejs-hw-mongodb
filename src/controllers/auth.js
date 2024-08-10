@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs';
 import createHttpError from 'http-errors';
 import User from '../models/user.js';
-import { registerUserService } from '../services/auth.js';
-import { loginUserService } from '../services/auth.js';
+import { registerUserService, loginUserService } from '../services/auth.js'; // Об'єднання імпортів
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -21,7 +20,6 @@ export const registerUser = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const loginUser = async (req, res, next) => {
   try {

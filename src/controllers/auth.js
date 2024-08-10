@@ -1,4 +1,4 @@
-import { registerUserService, loginUserService } from '../services/auth.js'; // Об'єднання імпортів
+import { registerUserService, loginUserService } from '../services/auth.js'; 
 
 export const registerUser = async (req, res, next) => {
   try {

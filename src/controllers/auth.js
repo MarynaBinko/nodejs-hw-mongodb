@@ -1,6 +1,3 @@
-import bcrypt from 'bcryptjs';
-import createHttpError from 'http-errors';
-import User from '../models/user.js';
 import { registerUserService, loginUserService } from '../services/auth.js'; // Об'єднання імпортів
 
 export const registerUser = async (req, res, next) => {
@@ -29,10 +26,11 @@ export const loginUser = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, { httpOnly: true });
     res.status(200).json({
       status: 200,
-      message: 'Successfully logged in an user!',
+      message: 'Successfully logged in a user!',
       data: { accessToken },
     });
   } catch (error) {
     next(error);
   }
 };
+

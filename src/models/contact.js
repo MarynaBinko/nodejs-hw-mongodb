@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
+
 const contactSchema = new Schema({
   name: String,
   email: String,
@@ -11,4 +13,7 @@ const contactSchema = new Schema({
   },
 });
 
+const Contact = mongoose.model('Contact', contactSchema);
+
 export default Contact;
+

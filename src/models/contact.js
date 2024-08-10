@@ -11,5 +11,4 @@ const contactSchema = new Schema({
   },
 });
 
-
 export default Contact;

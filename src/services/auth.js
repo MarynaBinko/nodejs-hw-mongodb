@@ -1,9 +1,11 @@
-
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import User from '../models/user.js';
 import Session from '../models/session.js';
+
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
+
 
 export const registerUserService = async ({ name, email, password }) => {
   const existingUser = await User.findOne({ email });
@@ -22,9 +24,6 @@ export const registerUserService = async ({ name, email, password }) => {
   return newUser;
 };
 
-
-
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 export const loginUserService = async ({ email, password }) => {
   const user = await User.findOne({ email });
@@ -56,3 +55,4 @@ export const loginUserService = async ({ email, password }) => {
   await session.save();
   return { accessToken, refreshToken };
 };
+

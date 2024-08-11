@@ -44,7 +44,7 @@ import {
 
   export const getContactById = async (req, res, next) => {
     try {
-      const contact = await getContactByIdService(req.params.contactId);
+      const contact = await getContactByIdService(req.userId, req.params.contactId);
       if (!contact) {
         throw httpErrors(404, 'Contact not found');
       }
@@ -73,7 +73,7 @@ import {
 
   export const updateContact = async (req, res, next) => {
     try {
-      const updatedContact = await updateContactService(req.params.contactId, req.body);
+      const updatedContact = await updateContactService(req.userId, req.params.contactId, req.body);
       if (!updatedContact) {
         throw httpErrors(404, 'Contact not found');
       }
@@ -89,7 +89,7 @@ import {
 
   export const deleteContact = async (req, res, next) => {
     try {
-      const deletedContact = await deleteContactService(req.params.contactId);
+      const deletedContact = await deleteContactService(req.userId, req.params.contactId);
       if (!deletedContact) {
         throw httpErrors(404, 'Contact not found');
       }
@@ -98,4 +98,3 @@ import {
       next(error);
     }
   };
-

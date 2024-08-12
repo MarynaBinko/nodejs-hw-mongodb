@@ -1,4 +1,4 @@
-import { registerUserService, loginUserService } from '../services/auth.js'; 
+import { registerUserService, loginUserService } from '../services/auth.js';
 
 export const registerUser = async (req, res, next) => {
   try {
@@ -33,4 +33,7 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
 

@@ -60,7 +60,8 @@ import {
 
   export const createContact = async (req, res, next) => {
     try {
-      const newContact = await createContactService(req.body);
+      const contactData = { ...req.body, userId: req.userId };  // Include userId from authMiddleware
+      const newContact = await createContactService(contactData);
       res.status(201).json({
         status: 201,
         message: 'Successfully created a contact!',

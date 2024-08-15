@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const contactSchema = new Schema({
   name: String,
   email: String,
-  phone: String,
+  phoneNumber: String,
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',

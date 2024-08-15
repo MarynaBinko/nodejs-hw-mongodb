@@ -13,8 +13,9 @@ export const createContact = async (contactData) => {
 
 
 export const getContactById = async (userId, contactId) => {
-  return Contact.findOne({ _id: contactId, userId });
+  return Contact.findOne({ _id: contactId, userId }).select('-__v');
 };
+
 
 export const updateContact = async (userId, contactId, contactData) => {
   return Contact.findOneAndUpdate({ _id: contactId, userId }, contactData, { new: true });

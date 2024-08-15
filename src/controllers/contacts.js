@@ -15,7 +15,7 @@ import {
       const skip = (page - 1) * perPage;
       const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
 
-      const filters = {};
+      const filters = { userId: req.userId }; // Filter by userId
       if (type) filters.contactType = type;
       if (isFavourite !== undefined) filters.isFavourite = isFavourite === 'true';
 
@@ -60,12 +60,27 @@ import {
 
   export const createContact = async (req, res, next) => {
     try {
-      const contactData = { ...req.body, userId: req.userId };  // Include userId from authMiddleware
+      const contactData = {
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
+        contactType: req.body.contactType,
+        isFavourite: req.body.isFavourite || false,
+        userId: req.userId
+      };
+
       const newContact = await createContactService(contactData);
       res.status(201).json({
         status: 201,
         message: 'Successfully created a contact!',
-        data: newContact,
+        data: {
+          _id: newContact._id,
+          name: newContact.name,
+          phoneNumber: newContact.phoneNumber,
+          email: newContact.email,
+          contactType: newContact.contactType,
+          isFavourite: newContact.isFavourite,
+        },
       });
     } catch (error) {
       next(error);

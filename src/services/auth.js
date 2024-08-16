@@ -23,8 +23,6 @@ export const registerUserService = async ({ name, email, password }) => {
   await newUser.save();
   return newUser;
 };
-
-
 export const loginUserService = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -36,19 +34,16 @@ export const loginUserService = async ({ email, password }) => {
     throw createHttpError(401, 'Invalid email or password');
   }
 
-  const accessToken = jwt.sign({ userId: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+   const accessToken = jwt.sign({ userId: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
   const refreshToken = jwt.sign({ userId: user._id }, REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
 
 
-
   const existingSession = await Session.findOne({ userId: user._id });
-if (existingSession) {
-  existingSession.accessToken = accessToken;
-  existingSession.refreshToken = refreshToken;
-  existingSession.accessTokenValidUntil = new Date(Date.now() + 15 * 60 * 1000);
-  existingSession.refreshTokenValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-  await existingSession.save();
-} else {
+  if (existingSession) {
+    await existingSession.remove();
+  }
+
+
   const session = new Session({
     userId: user._id,
     accessToken,
@@ -56,23 +51,10 @@ if (existingSession) {
     accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
+
   await session.save();
   return { accessToken, refreshToken };
 };
-//   const existingSession = await Session.findOne({ userId: user._id });
-//   if (existingSession) {
-//     await existingSession.remove();
-//   }
 
-//   const session = new Session({
-//     userId: user._id,
-//     accessToken,
-//     refreshToken,
-//     accessTokenValidUntil: new Date(Date.now() + 15 * 60 * 1000),
-//     refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-//   });
 
-//   await session.save();
-//   return { accessToken, refreshToken };
-// };
-};
+

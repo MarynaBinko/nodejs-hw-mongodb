@@ -3,13 +3,11 @@ import createHttpError from 'http-errors';
 
 export const logoutUser = async (req, res, next) => {
   try {
-  
     const { refreshToken } = req.cookies;
 
     if (!refreshToken) {
       return next(createHttpError(400, 'Refresh token is missing'));
     }
-
 
     const session = await Session.findOneAndDelete({ refreshToken });
 
@@ -17,9 +15,7 @@ export const logoutUser = async (req, res, next) => {
       return next(createHttpError(404, 'Session not found or already logged out'));
     }
 
-
     res.clearCookie('refreshToken');
-
 
     res.status(200).json({
       status: 200,
@@ -29,4 +25,5 @@ export const logoutUser = async (req, res, next) => {
     next(error);
   }
 };
+
 

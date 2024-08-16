@@ -1,3 +1,6 @@
+import Session from '../models/session.js';
+
+
 export const logoutUser = async (req, res, next) => {
     try {
       const { refreshToken } = req.cookies;

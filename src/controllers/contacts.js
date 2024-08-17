@@ -60,16 +60,19 @@ import {
 
   export const createContact = async (req, res, next) => {
     try {
+      // Include all fields from the request body
       const contactData = {
         name: req.body.name,
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         contactType: req.body.contactType,
         isFavourite: req.body.isFavourite || false,
-        userId: req.userId
+        userId: req.userId  // Add the userId to the contact data
       };
 
       const newContact = await createContactService(contactData);
+
+      
       res.status(201).json({
         status: 201,
         message: 'Successfully created a contact!',
@@ -80,6 +83,7 @@ import {
           email: newContact.email,
           contactType: newContact.contactType,
           isFavourite: newContact.isFavourite,
+          userId: newContact.userId,
         },
       });
     } catch (error) {

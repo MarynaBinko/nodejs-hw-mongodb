@@ -25,7 +25,11 @@ export const refreshToken = async (req, res, next) => {
     session.accessTokenValidUntil = new Date(Date.now() + 15 * 60 * 1000);
     await session.save();
 
-    res.status(200).json({ status: 200, accessToken: newAccessToken });
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully refreshed a session!',
+      data: { accessToken: newAccessToken },
+    });
   } catch (error) {
     next(error);
   }

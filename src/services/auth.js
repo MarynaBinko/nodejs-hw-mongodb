@@ -23,6 +23,7 @@ export const registerUserService = async ({ name, email, password }) => {
   await newUser.save();
   return newUser;
 };
+
 export const loginUserService = async ({ email, password }) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -34,14 +35,13 @@ export const loginUserService = async ({ email, password }) => {
     throw createHttpError(401, 'Invalid email or password');
   }
 
-   const accessToken = jwt.sign({ userId: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+  const accessToken = jwt.sign({ userId: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
   const refreshToken = jwt.sign({ userId: user._id }, REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
 
 
   const existingSession = await Session.findOne({ userId: user._id });
   if (existingSession) {
-    await existingSession.remove();
-  }
+    await existingSession.deleteOne();   }
 
 
   const session = new Session({

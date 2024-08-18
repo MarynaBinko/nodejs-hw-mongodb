@@ -8,6 +8,7 @@ import {
   import httpErrors from 'http-errors';
   import Contact from '../models/contact.js';
 
+
   export const getAllContacts = async (req, res, next) => {
     try {
       const { page = 1, perPage = 10, sortBy = 'name', sortOrder = 'asc', type, isFavourite } = req.query;
@@ -65,9 +66,14 @@ import {
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         contactType: req.body.contactType,
-        isFavourite: req.body.isFavourite || false,  
-        userId: req.userId
+        isFavourite: req.body.isFavourite || false,
+        userId: req.userId,
       };
+
+
+      if (req.file) {
+        contactData.photo = req.file.path;
+      }
 
       const newContact = await createContactService(contactData);
       res.status(201).json({
@@ -80,20 +86,30 @@ import {
           email: newContact.email,
           contactType: newContact.contactType,
           isFavourite: newContact.isFavourite,
-          userId: newContact.userId
+          userId: newContact.userId,
+          photo: newContact.photo,
         },
       });
     } catch (error) {
       next(error);
     }
   };
-
   export const updateContact = async (req, res, next) => {
     try {
-      const updatedContact = await updateContactService(req.userId, req.params.contactId, req.body);
+      const updateData = {
+        ...req.body,
+      };
+
+
+      if (req.file) {
+        updateData.photo = req.file.path; 
+      }
+
+      const updatedContact = await updateContactService(req.userId, req.params.contactId, updateData);
       if (!updatedContact) {
         throw httpErrors(404, 'Contact not found');
       }
+
       res.status(200).json({
         status: 200,
         message: 'Successfully patched a contact!',
@@ -103,7 +119,6 @@ import {
       next(error);
     }
   };
-
   export const deleteContact = async (req, res, next) => {
     try {
       const deletedContact = await deleteContactService(req.userId, req.params.contactId);

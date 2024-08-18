@@ -6,8 +6,9 @@ import { logoutUser } from '../controllers/logoutUser.js';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import createHttpError from 'http-errors';
-import { User } from '../models/user.js';
-import validateBody from '../middlewares/validateBody.js'; 
+import User from '../models/user.js';
+import validateBody from '../middlewares/validateBody.js';
+import { resetEmailSchema, resetPasswordSchema } from '../validation/contactSchemas.js';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post('/refresh', refreshToken);
 router.post('/logout', logoutUser);
 
 
-router.post('/send-reset-email', validateBody(yourValidationSchema), async (req, res, next) => {
+router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res, next) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
@@ -62,7 +63,7 @@ router.post('/send-reset-email', validateBody(yourValidationSchema), async (req,
 });
 
 
-router.post('/reset-pwd', validateBody(yourValidationSchema), async (req, res, next) => {
+router.post('/reset-pwd', validateBody(resetPasswordSchema), async (req, res, next) => {
   try {
     const { token, password } = req.body;
 

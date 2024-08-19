@@ -9,6 +9,8 @@ import createHttpError from 'http-errors';
 import User from '../models/user.js';
 import validateBody from '../middlewares/validateBody.js';
 import { resetEmailSchema, resetPasswordSchema } from '../validation/contactSchemas.js';
+import bcrypt from 'bcrypt';
+import Session from '../models/session.js';
 
 const router = express.Router();
 

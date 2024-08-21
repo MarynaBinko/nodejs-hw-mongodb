@@ -21,16 +21,17 @@ const contactSchema = new Schema({
   },
   isFavourite: {
     type: Boolean,
-    default: false, 
+    default: false,
   },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
+  photo: {
+    type: String, 
+  },
 });
 
 const Contact = mongoose.model('Contact', contactSchema);
-
 export default Contact;
-

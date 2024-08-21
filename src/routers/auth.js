@@ -38,7 +38,7 @@ router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
-      secure: false, // use TLS
+      secure: false, 
     });
 
     await transporter.sendMail({
@@ -46,7 +46,7 @@ router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res
       to: user.email,
       subject: "Password Reset",
       text: `Click the link to reset your password: ${resetLink}`,
-      html: `<p>Click the link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`, 
+      html: `<p>Click the link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`,
     });
 
     res.status(200).json({

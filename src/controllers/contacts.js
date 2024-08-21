@@ -60,7 +60,7 @@ import {
   };
 
   export const createContact = async (req, res, next) => {
-    try {
+    try  {
       const contactData = {
         name: req.body.name,
         phoneNumber: req.body.phoneNumber,
@@ -68,8 +68,8 @@ import {
         contactType: req.body.contactType,
         isFavourite: req.body.isFavourite || false,
         userId: req.userId,
+        photo: req.file ? req.file.path : null,
       };
-
 
       if (req.file) {
         contactData.photo = req.file.path;
@@ -98,11 +98,12 @@ import {
     try {
       const updateData = {
         ...req.body,
+        photo: req.file ? req.file.path : undefined,
       };
 
 
       if (req.file) {
-        updateData.photo = req.file.path; 
+        updateData.photo = req.file.path;
       }
 
       const updatedContact = await updateContactService(req.userId, req.params.contactId, updateData);

@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { registerUser, loginUser } from '../controllers/auth.js';
 import { refreshToken } from '../controllers/refreshToken.js';
@@ -14,12 +13,10 @@ import Session from '../models/session.js';
 
 const router = express.Router();
 
-
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/refresh', refreshToken);
 router.post('/logout', logoutUser);
-
 
 router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res, next) => {
   try {
@@ -41,14 +38,15 @@ router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      secure: false, // use TLS
     });
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: email,
+      from: `"Your App" <${process.env.SMTP_FROM}>`,
+      to: user.email,
       subject: "Password Reset",
       text: `Click the link to reset your password: ${resetLink}`,
-      html: `<p>Click the link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`,
+      html: `<p>Click the link to reset your password: <a href="${resetLink}">${resetLink}</a></p>`, 
     });
 
     res.status(200).json({
@@ -63,7 +61,6 @@ router.post('/send-reset-email', validateBody(resetEmailSchema), async (req, res
     next(error);
   }
 });
-
 
 router.post('/reset-pwd', validateBody(resetPasswordSchema), async (req, res, next) => {
   try {

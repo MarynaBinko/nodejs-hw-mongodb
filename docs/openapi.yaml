@@ -12,7 +12,6 @@ servers:
   - url: http://localhost:3000
   - url: https://nodejs-hw-mongodb-3lnf.onrender.com
 paths:
- paths:
   /contacts:
     get:
       $ref: '../swagger/paths/contacts/get.yaml'
@@ -30,3 +29,9 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      components:
+  schemas:
+    Contact:
+      $ref: './schemas/Contact.yaml'
+    ContactResponse:
+      $ref: './schemas/ContactResponse.yaml'

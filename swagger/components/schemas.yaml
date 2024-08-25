@@ -16,3 +16,22 @@ Contact:
   required:
     - name
     - email
+
+ContactResponse:
+  type: object
+  properties:
+    status:
+      type: string
+      example: "success"
+    data:
+      type: object
+      properties:
+        contact:
+          $ref: '#/components/schemas/Contact'
+    message:
+      type: string
+      example: "Contact fetched successfully"
+  required:
+    - status
+    - data
+    - message

@@ -1,0 +1,17 @@
+type: object
+properties:
+  status:
+    type: string
+    example: "success"
+  data:
+    type: object
+    properties:
+      contact:
+        $ref: Contact.yaml
+  message:
+    type: string
+    example: "Contact fetched successfully"
+required:
+  - status
+  - data
+  - message

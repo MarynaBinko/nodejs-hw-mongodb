@@ -1,15 +1,18 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: <Students app>
+
+  title: Students App
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: <Students app>
+  description: An API for managing students and contacts.
 tags:
-  # теги, що ви будете використовувати
+  - name: Contacts
+    description: Operations related to contacts
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3001
+
   - url: https://nodejs-hw-mongodb-3lnf.onrender.com
 paths:
   /contacts:
@@ -29,9 +32,10 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      components:
+
   schemas:
     Contact:
-      $ref: './schemas/Contact.yaml'
+      $ref: ..\swagger\components\schemas\Contact.yaml
     ContactResponse:
-      $ref: './schemas/ContactResponse.yaml'
+      $ref: ..\swagger\components\schemas\ContactResponse.yaml
+

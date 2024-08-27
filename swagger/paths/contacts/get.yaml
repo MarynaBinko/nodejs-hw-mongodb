@@ -28,6 +28,9 @@ responses:
         schema:
           type: array
           items:
-            $ref: '#/components/schemas/Contact'
+
+            $ref: ..\..\components\schemas\Contact.yaml
+
   '401':
+    
     description: Unauthorized

@@ -30,4 +30,5 @@ responses:
           items:
             $ref: ..\..\components\schemas\Contact.yaml
   '401':
+    
     description: Unauthorized

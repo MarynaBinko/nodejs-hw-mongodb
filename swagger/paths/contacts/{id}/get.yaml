@@ -3,6 +3,7 @@ tags:
 summary: Get a contact by ID
 operationId: getContactById
 description: Retrieve a specific contact by its ID.
+
 security:
   - bearerAuth: []
 parameters:
@@ -11,6 +12,7 @@ parameters:
     required: true
     schema:
       type: string
+
 responses:
   '200':
     description: A single contact
@@ -20,3 +22,5 @@ responses:
           $ref: ..\..\..\components\schemas\Contact.yaml
   '404':
     description: Contact not found
+=======
+

@@ -17,7 +17,6 @@ const startApp = async () => {
 
     await initMongoConnection();
 
-
     const swaggerPath = path.resolve(__dirname, '../docs/swagger.json');
     const swaggerFile = await fs.readFile(swaggerPath, 'utf8');
     const swaggerDocument = JSON.parse(swaggerFile);
@@ -27,7 +26,7 @@ const startApp = async () => {
 
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-   
+
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

@@ -6,6 +6,8 @@ import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { logoutUser } from './controllers/logoutUser.js';
+import swaggerUi from 'swagger-ui-express';  
+import swaggerDocument from '../docs/swagger.json';
 
 const setupServer = () => {
   const app = express();
@@ -22,6 +24,7 @@ const setupServer = () => {
 
   app.post('/auth/logout', logoutUser);
 
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use(notFoundHandler);
 

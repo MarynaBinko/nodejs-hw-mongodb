@@ -7,7 +7,7 @@ description: Retrieve a specific contact by its ID.
 security:
   - bearerAuth: []
 parameters:
-  - name: contactId
+  - name: id
     in: path
     required: true
     schema:

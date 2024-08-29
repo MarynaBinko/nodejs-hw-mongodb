@@ -6,8 +6,8 @@ import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import { logoutUser } from './controllers/logoutUser.js';
-import swaggerUi from 'swagger-ui-express';  
-import swaggerDocument from '../docs/swagger.json';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../docs/openapi.yaml';
 
 const setupServer = () => {
   const app = express();

@@ -9,7 +9,7 @@ description: Update the details of an existing contact by its ID.
 security:
   - bearerAuth: []
 parameters:
-  - name: contactId
+  - name: id
     in: path
     required: true
     schema:

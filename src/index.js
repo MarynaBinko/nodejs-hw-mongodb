@@ -16,7 +16,7 @@ const startApp = async () => {
   try {
     await initMongoConnection();
 
-    const swaggerPath = path.resolve(__dirname, '../docs/openapi.yaml');
+    const swaggerPath = path.resolve(__dirname, '../docs/swagger.json');
     console.log(`Swagger file path: ${swaggerPath}`);
     const swaggerFile = await fs.readFile(swaggerPath, 'utf8');
     console.log(`Swagger file content: ${swaggerFile}`);

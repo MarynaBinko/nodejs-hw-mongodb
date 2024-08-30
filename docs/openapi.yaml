@@ -18,7 +18,7 @@ paths:
       $ref: "../swagger/paths/contacts/get.yaml"
     post:
       $ref: "../swagger/paths/contacts/post.yaml"
-  /{id}:
+  /contacts/{id}:
     get:
       $ref: "../swagger/paths/contacts/{id}/get.yaml"
     patch:
@@ -35,4 +35,3 @@ components:
       $ref: "../swagger/components/schemas/Contact.yaml"
     ContactResponse:
       $ref: "../swagger/components/schemas/ContactResponse.yaml"
-

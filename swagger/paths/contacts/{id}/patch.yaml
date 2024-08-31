@@ -1,11 +1,8 @@
 tags:
   - Contacts
-
 summary: Update a contact by ID
 operationId: updateContactById
 description: Update the details of an existing contact by its ID.
-
-
 security:
   - bearerAuth: []
 parameters:
@@ -15,21 +12,55 @@ parameters:
     schema:
       type: string
 requestBody:
-  description: Contact data to update
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: '../../../components/schemas/Contact.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+          phoneNumber:
+            type: string
+          email:
+            type: string
+          contactType:
+            type: string
+          isFavourite:
+            type: boolean
+          photo:
+            type: string
+            format: binary
 responses:
   '200':
     description: Contact updated successfully
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/ContactResponse.yaml'
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully updated contact!
+            data:
+              $ref: '../../../components/schemas/ContactResponse.yaml'
   '400':
     description: Invalid input data
+  '401':
+    description: Unauthorized
   '404':
     description: Contact not found
-
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: Contact not found

@@ -12,6 +12,20 @@ properties:
   phone:
     type: string
     example: "+1234567890"
+  contactType:
+    type: string
+    example: "personal"  
+  isFavourite:
+    type: boolean
+    example: true
+  userId:
+    type: string
+    example: "user123"
+  photo:
+    type: string
+    format: binary
+    example: "https://example.com/uploads/photo.jpg"
 required:
   - name
   - email
+
